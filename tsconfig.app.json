@@ -28,8 +28,15 @@
         "extends": "./tsconfig.json",
     },
     "include": [
-        "Affirmation Tower/src",
-        "Affirmation Tower/src/**/*.ts",
-        "Affirmation Tower/src/**/*.tsx"
+        "src",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        ".vercel",
+        "build"
     ]
 }
