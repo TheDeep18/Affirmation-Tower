@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "composite": true,
-        "tsBuildInfoFile": "Affirmation Tower/node_modules/.tmp/tsconfig.app.tsbuildinfo",
         "target": "ES2020",
         "useDefineForClassFields": true,
         "lib": [
@@ -13,6 +12,7 @@
         "skipLibCheck": true,
         /* Bundler mode */
         "moduleResolution": "bundler",
+        "tsBuildInfoFile": "./node_modules/.cache/tsconfig.app.tsbuildinfo",
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
@@ -24,9 +24,9 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "outDir": "./dist",
-        "extends": "./tsconfig.json",
+        "outDir": "./dist"
     },
+    "extends": "./tsconfig.json",
     "include": [
         "src",
         "src/**/*.ts",
