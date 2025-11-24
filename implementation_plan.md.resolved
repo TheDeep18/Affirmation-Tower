@@ -1,0 +1,62 @@
+# Affirmation Tower Implementation Plan
+
+## Goal Description
+Build "Affirmation Tower", a client-side React web app that gamifies positive affirmations. Users swipe to reject negative thoughts and accept affirmations, which then become blocks to build a tower. The app focuses on playful interactions, physics-based animations, and accessibility.
+
+## User Review Required
+> [!IMPORTANT]
+> This app runs entirely client-side. All progress is saved in `localStorage`. Clearing browser data will lose progress.
+
+## Proposed Changes
+
+### Project Structure
+- **Framework**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **State**: Zustand
+- **Persistence**: LocalStorage
+
+### Core Logic
+#### [NEW] [useGameStore.ts](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/state/useGameStore.ts)
+- Manages game state: `currentPhase` (LANDING, CARD, DROP, TOWER, END), `score`, `streak`, `towerHeight`, `deck`, `currentCard`.
+- Actions: `startGame`, `swipeCard`, `dropBlock`, `endGame`, `resetGame`.
+
+#### [NEW] [deck.ts](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/lib/deck.ts)
+- Logic to generate a deck with ~40% negative and ~60% affirmation cards.
+- Shuffling and category distribution.
+
+#### [NEW] [storage.ts](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/lib/storage.ts)
+- Wrapper around `localStorage` for saving/loading user progress and settings.
+
+### Components
+#### [NEW] [App.tsx](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/App.tsx)
+- Main layout and phase switcher.
+
+#### [NEW] [Landing.tsx](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/components/Landing.tsx)
+- Entry point with "Daily Mode" and "Free Play" buttons.
+
+#### [NEW] [CardDeck.tsx](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/components/CardDeck.tsx)
+- Handles the stack of cards and swipe interactions (touch and keyboard).
+
+#### [NEW] [Tower.tsx](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/components/Tower.tsx)
+- Renders the growing tower of blocks.
+- Handles physics animations (wobble, collapse).
+
+#### [NEW] [EndScreen.tsx](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/components/EndScreen.tsx)
+- Displays results, badges, and options to replay or save.
+
+### Content
+#### [NEW] [cards.ts](file:///Users/deepadalja/.gemini/antigravity/scratch/affirmation-tower/src/data/cards.ts)
+- Static dataset of 120+ cards (Negative Thoughts and Affirmations).
+
+## Verification Plan
+### Automated Tests
+- `npm test`: Run Vitest unit tests for deck generation and storage logic.
+- Verify deck ratio (40/60).
+- Verify storage persistence.
+
+### Manual Verification
+- **Gameplay**: Play through a full round (Landing -> Swipe -> Drop -> End).
+- **Physics**: Test tower wobble and collapse mechanics.
+- **Accessibility**: Verify keyboard navigation and screen reader announcements.
+- **Responsiveness**: Test on mobile and desktop viewports.
