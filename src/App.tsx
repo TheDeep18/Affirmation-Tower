@@ -6,10 +6,10 @@ import Tower from './components/Tower';
 import EndScreen from './pages/EndScreen';
 import Settings from './pages/Settings';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Settings as SettingsIcon, Layout, Maximize } from 'lucide-react';
+import { Settings as SettingsIcon, Layout, Maximize, ArrowRight } from 'lucide-react';
 
 function App() {
-    const { phase, prefs } = useGameStore();
+    const { phase, prefs, showScorecard } = useGameStore();
     const [showSettings, setShowSettings] = React.useState(false);
     const [isSplitView, setIsSplitView] = React.useState(true);
     const [isDesktop, setIsDesktop] = React.useState(window.innerWidth >= 1024);
@@ -80,7 +80,7 @@ function App() {
                         </motion.div>
                     )}
 
-                    {(phase === 'CARD' || phase === 'DROP' || phase === 'TOWER') && (
+                    {(phase === 'CARD' || phase === 'DROP' || phase === 'TOWER' || phase === 'TOWER_REVIEW') && (
                         <motion.div
                             key="game"
                             initial={{ opacity: 0 }}
@@ -92,7 +92,19 @@ function App() {
                                 // Split View - Force Row
                                 <div className="w-full h-full flex flex-row">
                                     <div className="w-1/2 h-full flex items-center justify-center relative z-20 p-4">
-                                        <CardDeck />
+                                        {phase === 'TOWER_REVIEW' ? (
+                                            <div className="text-center">
+                                                <h2 className="text-3xl font-bold mb-6 text-slate-800 dark:text-white">Tower Complete!</h2>
+                                                <button
+                                                    onClick={showScorecard}
+                                                    className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold text-lg shadow-xl transition-transform transform hover:scale-105 flex items-center gap-2 mx-auto"
+                                                >
+                                                    See Scorecard <ArrowRight size={20} />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <CardDeck />
+                                        )}
                                     </div>
                                     <div className="w-1/2 h-full relative z-10 bg-slate-50/50 dark:bg-slate-900/50 border-l border-slate-200 dark:border-slate-800">
                                         <Tower />
@@ -101,11 +113,24 @@ function App() {
                             ) : (
                                 // Focused View (Card Centered, Tower Background)
                                 <div className="w-full h-full relative flex items-center justify-center">
-                                    <div className="absolute inset-0 z-0 opacity-30 blur-sm pointer-events-none">
+                                    <div className={`absolute inset-0 z-0 ${phase === 'TOWER_REVIEW' ? 'opacity-100' : 'opacity-30 blur-sm'} transition-all duration-500 pointer-events-none`}>
                                         <Tower />
                                     </div>
-                                    <div className="relative z-10">
-                                        <CardDeck />
+                                    <div className="relative z-10 w-full flex justify-center pointer-events-none">
+                                        {phase !== 'TOWER_REVIEW' ? (
+                                            <div className="pointer-events-auto">
+                                                <CardDeck />
+                                            </div>
+                                        ) : (
+                                            <div className="absolute bottom-20 pointer-events-auto">
+                                                <button
+                                                    onClick={showScorecard}
+                                                    className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold text-lg shadow-xl transition-transform transform hover:scale-105 flex items-center gap-2 animate-bounce"
+                                                >
+                                                    See Scorecard <ArrowRight size={20} />
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}

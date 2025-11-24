@@ -54,4 +54,4 @@ export interface GamePrefs {
     reducedMotion: boolean;
 }
 
-export type GamePhase = 'LANDING' | 'CARD' | 'DROP' | 'TOWER' | 'END';
+export type GamePhase = 'LANDING' | 'CARD' | 'DROP' | 'TOWER' | 'TOWER_REVIEW' | 'END';

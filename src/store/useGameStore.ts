@@ -22,6 +22,7 @@ interface GameState {
     resetGame: () => void;
     updatePrefs: (prefs: Partial<GamePrefs>) => void;
     saveTower: () => void;
+    showScorecard: () => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -160,7 +161,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         // If deck finished
         if (nextIndex >= deck.length) {
             setTimeout(() => {
-                set({ phase: 'END' });
+                get().endGame(false);
             }, 1000); // Small delay to see final block
         }
 
@@ -189,9 +190,10 @@ export const useGameStore = create<GameState>((set, get) => ({
                 blocks: blocks
             };
             storage.addTower(tower);
+            set({ phase: 'TOWER_REVIEW' });
+        } else {
+            set({ phase: 'END' });
         }
-
-        set({ phase: 'END' });
     },
 
     resetGame: () => {
@@ -205,5 +207,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     saveTower: () => {
         // Logic to trigger html-to-image download handled in component
+    },
+
+    showScorecard: () => {
+        set({ phase: 'END' });
     }
 }));
